@@ -14,9 +14,9 @@
     <div id="login-page" class="flex items-center justify-center min-h-screen p-4 bg-slate-900">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100">
             <div class="text-center mb-8">
-<div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg overflow-hidden bg-white border-2 border-red-600">
-    <img src="Logo_Dojo.png" alt="Logo Dojo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=LOGO'">
-</div>
+                <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg overflow-hidden bg-white border-2 border-red-600">
+                    <img src="Logo_Dojo.png" alt="Logo Dojo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=LOGO'">
+                </div>
                 <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">S I M P E L</h1>
                 <p class="text-sm text-gray-500 mt-1">Sistem Informasi Materi Pelatih</p>
             </div>
@@ -58,9 +58,9 @@
         <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-3">
-<span class="w-10 h-10 rounded-lg overflow-hidden bg-white flex items-center justify-center shadow border border-red-600">
-    <img src="Logo_Dojo.png" alt="Logo Dojo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=LOGO'">
-</span>
+                    <span class="w-10 h-10 rounded-lg overflow-hidden bg-white flex items-center justify-center shadow border border-red-600">
+                        <img src="Logo_Dojo.png" alt="Logo Dojo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=LOGO'">
+                    </span>
                     <h1 class="text-xl font-bold tracking-wide">SIMPEL MJA PANGANDARAN</h1>
                 </div>
                 <button onclick="logout()" class="text-sm bg-slate-800 hover:bg-slate-700 text-gray-300 px-4 py-2 rounded-lg border border-slate-700 transition">
@@ -75,7 +75,7 @@
             <!-- Left Panel: Navigation Categories -->
             <aside class="lg:col-span-5 bg-white p-5 rounded-2xl shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-120px)] sticky top-20">
                 <h2 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                    <i class="fas fa-list-ul mr-2 text-red-600"></i> Silabus Materi
+                    <i class="fas fa-list-ul mr-2 text-red-600"></i> List Materi
                 </h2>
                 
                 <!-- Filter Search -->
@@ -114,7 +114,7 @@
                 </div>
 
                 <div class="mt-6 pt-4 border-t border-gray-100 text-xs text-center text-gray-400">
-                    Sistem Informasi Materi Pelatih &copy; Tim Manajemen MJA | KJI Dojo Pangandaran
+                    Sistem Informasi Materi Pelatih &copy; Manajemen MJA | KJI Dojo Pangandaran
                 </div>
             </section>
         </main>
@@ -122,7 +122,7 @@
 
     <!-- Script Application -->
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycby0mN7zzAAvs2crPbjqV7D50A3uHtgY6HedNyftPvx71w2P_-DB1LbmlLjFcpEdUSFd/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycby9UOp2RnaOQz507OFFNkAva85EGxYTxyeHCcQ6OkDIphaUHVZARsh4r6q8358ADLxQ/exec";
 
         let rawMateriData = [];
 
@@ -191,7 +191,7 @@
                 }
             } catch (err) {
                 document.getElementById("materi-container").innerHTML = `
-                    <div class="text-center py-6 text-red-500 text-sm">Gagal memuat materi silabus.</div>
+                    <div class="text-center py-6 text-red-500 text-sm">Gagal memuat list materi.</div>
                 `;
             }
         }
@@ -205,6 +205,7 @@
                 return;
             }
 
+            // Grouping: Kategori -> Sub Kategori -> Item Gerakan
             const grouped = {};
             data.forEach(item => {
                 if (!grouped[item.kategori]) grouped[item.kategori] = {};
@@ -222,7 +223,7 @@
                     let itemHtml = "";
                     grouped[kat][subKat].forEach(g => {
                         itemHtml += `
-                            <button onclick="playVideo('${g.nama_gerakan}', '${kat} - ${subKat}', '${g.link_video}')" 
+                            <button onclick="playVideo('${g.nama_gerakan}', '${kat} &rsaquo; ${subKat}', '${g.link_video}')" 
                                class="w-full text-left py-2 px-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition flex items-center justify-between group">
                                 <span><i class="far fa-play-circle mr-2 text-gray-400 group-hover:text-red-600"></i>${g.nama_gerakan}</span>
                                 <i class="fas fa-chevron-right text-xs opacity-0 group-hover:opacity-100 transition"></i>
@@ -232,7 +233,7 @@
 
                     subHtml += `
                         <div class="ml-3 my-2 border-l-2 border-gray-200 pl-3">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">${subKat}</h4>
+                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">${subKat}</h4>
                             <div class="space-y-1">${itemHtml}</div>
                         </div>
                     `;
@@ -241,7 +242,7 @@
                 const catCard = `
                     <div class="border border-gray-200 rounded-xl overflow-hidden">
                         <button onclick="toggleAccordion('${katId}')" class="w-full bg-gray-50 px-4 py-3 text-left font-bold text-gray-800 flex justify-between items-center hover:bg-gray-100 transition">
-                            <span>${kat}</span>
+                            <span><i class="fas fa-folder mr-2 text-red-600"></i>${kat}</span>
                             <i id="icon-${katId}" class="fas fa-chevron-down text-gray-500 transition-transform"></i>
                         </button>
                         <div id="${katId}" class="hidden p-2 bg-white">
