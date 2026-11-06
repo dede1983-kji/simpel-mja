@@ -7,6 +7,15 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Perbaikan khusus agar iframe Google Drive tidak tertutup kotak hitam di HP */
+        @media (max-width: 768px) {
+            #video-wrapper iframe {
+                position: relative !important;
+                height: 220px !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
 
@@ -99,7 +108,7 @@
                         <i class="fas fa-video mr-2 text-red-600"></i> Peragaan Gerakan
                     </h2>
                     
-                    <!-- Video Wrapper dengan z-index dan background yang dioptimalkan agar tidak tertutup hitam -->
+                    <!-- Video Wrapper -->
                     <div id="video-wrapper" class="w-full aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center relative shadow-inner">
                         <div id="video-placeholder" class="text-center p-6 text-gray-400">
                             <i class="fas fa-circle-play text-5xl mb-3 opacity-60"></i>
@@ -277,7 +286,6 @@
             placeholder.classList.add("hidden");
             player.classList.remove("hidden");
 
-            // Memastikan link Google Drive menggunakan format /preview murni agar stabil di HP & Laptop
             let embedUrl = link;
             if (link.includes("drive.google.com")) {
                 const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
