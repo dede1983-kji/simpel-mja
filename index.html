@@ -99,13 +99,13 @@
                         <i class="fas fa-video mr-2 text-red-600"></i> Peragaan Gerakan
                     </h2>
                     
-                    <!-- Video Wrapper menggunakan tag <video> HTML5 standar -->
+                    <!-- Video Wrapper menggunakan iframe Google Drive standar yang stabil -->
                     <div id="video-wrapper" class="w-full aspect-video bg-slate-900 rounded-xl overflow-hidden flex items-center justify-center relative shadow-inner">
                         <div id="video-placeholder" class="text-center p-6 text-gray-400">
                             <i class="fas fa-circle-play text-5xl mb-3 opacity-60"></i>
                             <p class="text-sm">Pilih salah satu gerakan di menu sebelah kiri untuk melihat video.</p>
                         </div>
-                        <video id="video-player" class="hidden absolute inset-0 w-full h-full object-contain" controls controlslist="nodownload"></video>
+                        <iframe id="video-player" class="hidden absolute inset-0 w-full h-full border-0 bg-slate-900" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
                     </div>
 
                     <div class="mt-4">
@@ -277,15 +277,13 @@
             placeholder.classList.add("hidden");
             player.classList.remove("hidden");
 
-            // Mengonversi link Google Drive agar langsung stream dengan mulus tanpa kotak hitam
-            let directLink = link;
+            // Memastikan link Google Drive menggunakan format /preview agar mulus diputar di HP
+            let embedLink = link;
             if (link.includes("drive.google.com")) {
-                directLink = link.replace(/\/preview$/, "").replace(/\/view.*$/, "") + "/uc?export=download";
+                embedLink = link.replace(/\/view.*$/, "").replace(/\/uc\?export=download.*$/, "") + "/preview";
             }
 
-            player.src = directLink;
-            player.load();
-            player.play().catch(e => console.log("Autoplay memerlukan interaksi pengguna."));
+            player.src = embedLink;
         }
 
         function filterMateri() {
