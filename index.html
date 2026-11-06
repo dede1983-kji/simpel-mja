@@ -99,13 +99,13 @@
                         <i class="fas fa-video mr-2 text-red-600"></i> Peragaan Gerakan
                     </h2>
                     
-                    <!-- Video Wrapper menggunakan iframe Google Drive standar yang stabil -->
+                    <!-- Video Wrapper menggunakan tag <video> HTML5 standar -->
                     <div id="video-wrapper" class="w-full aspect-video bg-slate-900 rounded-xl overflow-hidden flex items-center justify-center relative shadow-inner">
                         <div id="video-placeholder" class="text-center p-6 text-gray-400">
                             <i class="fas fa-circle-play text-5xl mb-3 opacity-60"></i>
                             <p class="text-sm">Pilih salah satu gerakan di menu sebelah kiri untuk melihat video.</p>
                         </div>
-                        <iframe id="video-player" class="hidden absolute inset-0 w-full h-full border-0 bg-slate-900" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                        <video id="video-player" class="hidden absolute inset-0 w-full h-full object-contain" controls controlslist="nodownload"></video>
                     </div>
 
                     <div class="mt-4">
@@ -277,13 +277,17 @@
             placeholder.classList.add("hidden");
             player.classList.remove("hidden");
 
-            // Memastikan link Google Drive menggunakan format /preview agar mulus diputar di HP
-            let embedLink = link;
+            // Mengonversi link Google Drive agar langsung stream ke tag <video> HTML5
+            let directUrl = link;
             if (link.includes("drive.google.com")) {
-                embedLink = link.replace(/\/view.*$/, "").replace(/\/uc\?export=download.*$/, "") + "/preview";
+                const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    directUrl = `https://docs.google.com/uc?export=download&id=${match[1]}`;
+                }
             }
 
-            player.src = embedLink;
+            player.src = directUrl;
+            player.load();
         }
 
         function filterMateri() {
