@@ -99,7 +99,7 @@
                         <i class="fas fa-video mr-2 text-red-600"></i> Peragaan Gerakan
                     </h2>
                     
-                    <!-- Video Wrapper menggunakan tag <video> HTML5 standar -->
+                    <!-- Video Wrapper -->
                     <div id="video-wrapper" class="w-full aspect-video bg-slate-900 rounded-xl overflow-hidden flex items-center justify-center relative shadow-inner">
                         <div id="video-placeholder" class="text-center p-6 text-gray-400">
                             <i class="fas fa-circle-play text-5xl mb-3 opacity-60"></i>
@@ -277,16 +277,16 @@
             placeholder.classList.add("hidden");
             player.classList.remove("hidden");
 
-            // Mengonversi link Google Drive agar langsung stream ke tag <video> HTML5
-            let directUrl = link;
+            let videoSrc = link;
+            // Jika menggunakan link Google Drive, ubah otomatis menjadi direct export link yang bersih
             if (link.includes("drive.google.com")) {
                 const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (match && match[1]) {
-                    directUrl = `https://docs.google.com/uc?export=download&id=${match[1]}`;
+                    videoSrc = `https://lh3.googleusercontent.com/d/${match[1]}`;
                 }
             }
 
-            player.src = directUrl;
+            player.src = videoSrc;
             player.load();
         }
 
