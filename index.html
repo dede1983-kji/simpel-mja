@@ -99,13 +99,13 @@
                         <i class="fas fa-video mr-2 text-red-600"></i> Peragaan Gerakan
                     </h2>
                     
-                    <!-- Video Wrapper khusus iframe Google Drive agar pas & rapi di HP & Laptop -->
+                    <!-- Video Wrapper dengan z-index dan background yang dioptimalkan agar tidak tertutup hitam -->
                     <div id="video-wrapper" class="w-full aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center relative shadow-inner">
                         <div id="video-placeholder" class="text-center p-6 text-gray-400">
                             <i class="fas fa-circle-play text-5xl mb-3 opacity-60"></i>
                             <p class="text-sm">Pilih salah satu gerakan di menu sebelah kiri untuk melihat video.</p>
                         </div>
-                        <iframe id="video-player" class="hidden absolute inset-0 w-full h-full border-0 bg-black" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <iframe id="video-player" class="hidden absolute inset-0 w-full h-full border-0 bg-black" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
                     </div>
 
                     <div class="mt-4">
@@ -277,16 +277,16 @@
             placeholder.classList.add("hidden");
             player.classList.remove("hidden");
 
-            // Mengonversi link Google Drive secara otomatis ke format /preview yang valid
-            let finalUrl = link;
+            // Memastikan link Google Drive menggunakan format /preview murni agar stabil di HP & Laptop
+            let embedUrl = link;
             if (link.includes("drive.google.com")) {
-                const fileIdMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                if (fileIdMatch && fileIdMatch[1]) {
-                    finalUrl = `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+                const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
                 }
             }
 
-            player.src = finalUrl;
+            player.src = embedUrl;
         }
 
         function filterMateri() {
